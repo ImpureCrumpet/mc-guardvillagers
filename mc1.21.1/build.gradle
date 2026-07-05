@@ -1,0 +1,36 @@
+
+base {
+	archivesName = 'guardvillagers'
+}
+
+loom {
+	accessWidenerPath = file("src/main/resources/guardvillagers.accesswidener")
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:1.21.1"
+	mappings "net.fabricmc:yarn:1.21.1+build.3:v2"
+	modImplementation "net.fabricmc:fabric-loader:0.18.6"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:0.116.9+1.21.1"
+	modImplementation include("maven.modrinth:midnightlib:1.5.7-fabric")
+}
+
+processResources {
+	inputs.property "version", project.version
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
+
+tasks.named('remapJar') {
+	archiveBaseName.set('guardvillagers')
+	archiveVersion.set("${project.findProperty('mod_version')}+1.21.1")
+}
+
+tasks.named('jar') {
+	archiveBaseName.set('guardvillagers')
+	archiveVersion.set("${project.findProperty('mod_version')}+1.21.1")
+	from(rootProject.file("LICENSE")) {
+		rename { "${it}_${project.base.archivesName.get()}" }
+	}
+}

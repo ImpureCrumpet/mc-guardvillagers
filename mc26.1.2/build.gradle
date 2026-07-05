@@ -1,0 +1,36 @@
+
+base {
+	archivesName = 'guardvillagers'
+}
+
+loom {
+	accessWidenerPath = file("src/main/resources/guardvillagers.accesswidener")
+}
+
+repositories {
+	maven { url = 'https://maven.midnightdust.eu/releases' }
+	maven { name = 'Terraformers'; url = 'https://maven.terraformersmc.com/' }
+	maven { url = 'https://api.modrinth.com/maven' }
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:26.1.2"
+	implementation "net.fabricmc:fabric-loader:0.19.3"
+	implementation "net.fabricmc.fabric-api:fabric-api:0.152.1+26.1.2"
+	implementation include("eu.midnightdust:midnightlib:1.9.3+26.2-pre-3-fabric")
+}
+
+processResources {
+	inputs.property "version", project.version
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
+
+tasks.named('jar') {
+	archiveBaseName.set('guardvillagers')
+	archiveVersion.set("${project.findProperty('mod_version')}+26.1.2")
+	from(rootProject.file("LICENSE")) {
+		rename { "${it}_${project.base.archivesName.get()}" }
+	}
+}

@@ -8,3 +8,30 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
+
+rootProject.name = 'guardvillagers'
+
+def jvmMajor = JavaVersion.current().majorVersion.toInteger()
+def include26 = jvmMajor >= 25 || System.getenv('INCLUDE_26') == 'true'
+
+include(
+	'mc1.21',
+	'mc1.21.1',
+	'mc1.21.4',
+	'mc1.21.5',
+	'mc1.21.6',
+	'mc1.21.7',
+	'mc1.21.8',
+	'mc1.21.9',
+	'mc1.21.10',
+	'mc1.21.11'
+)
+
+if (include26) {
+	include(
+		'mc26.1',
+		'mc26.1.1',
+		'mc26.1.2',
+		'mc26.2'
+	)
+}

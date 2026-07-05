@@ -33,6 +33,11 @@ bin/
 
 run/
 
+# secrets
+
+.env
+.env.*
+
 # java
 
 hs_err_*.log

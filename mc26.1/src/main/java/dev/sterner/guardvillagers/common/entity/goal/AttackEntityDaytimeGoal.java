@@ -1,0 +1,17 @@
+package dev.sterner.guardvillagers.common.entity.goal;
+
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.spider.Spider;
+
+public class AttackEntityDaytimeGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
+    public AttackEntityDaytimeGoal(Spider spider, Class<T> classTarget) {
+        super(spider, classTarget, true);
+    }
+
+    @Override
+    public boolean canUse() {
+        float f = this.mob.getLightLevelDependentMagicValue();
+        return !(f >= 0.5F) && super.canUse();
+    }
+}
