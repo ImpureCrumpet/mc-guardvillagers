@@ -1,0 +1,129 @@
+# Fabric version matrix — machine-readable coordinates for multi-version mc* builds.
+# Optional companion to fabric-mod-build-release-guide-v4.3.md.
+# Renamed from Fabric_Loader_Yarn_Fabric API.yaml (space in filename) in guide v4.3.
+#
+# Locked through 26.2 (2026-07-04): 26.x loader 0.19.3, Loom 1.17.12; Fabric API pins
+# validated against LOREal mod repos (CW, SS, HH, ASBF). Re-verify on Fabric Develop / Maven before rebumps.
+#
+# Schema:
+#   mappings: "yarn" (1.21.x — Yarn/Intermediary available) | "mojmap" (26.x — Mojang names only)
+#   yarn_mappings: present only when mappings == yarn
+#   notes: optional freeform per-row annotations (API bands, compat caveats, etc.)
+
+versions:
+  - minecraft_version: "1.21"
+    mappings: yarn
+    yarn_mappings: "1.21+build.9"
+    loader_version: "0.18.6"
+    loom_version: "1.15-SNAPSHOT"
+    fabric_api_version: "0.102.0+1.21"
+    notes: "Phase 3 gap-fill; early registration APIs may differ from 1.21.2+"
+
+  - minecraft_version: "1.21.1"
+    mappings: yarn
+    yarn_mappings: "1.21.1+build.3"
+    loader_version: "0.18.6"
+    loom_version: "1.15-SNAPSHOT"
+    fabric_api_version: "0.116.9+1.21.1"
+    notes: "Phase 2; shares early-1.21.x API band with 1.21 (CustomRecipe, EntityType.Builder pre-changes)"
+
+  - minecraft_version: "1.21.2"
+    mappings: yarn
+    yarn_mappings: "1.21.2+build.1"
+    loader_version: "0.18.6"
+    loom_version: "1.15-SNAPSHOT"
+    fabric_api_version: "0.106.1+1.21.2"
+    notes: "Short-lived; Fabric API support stopped early — skip unless requested"
+
+  - minecraft_version: "1.21.3"
+    mappings: yarn
+    yarn_mappings: "1.21.3+build.2"
+    loader_version: "0.18.6"
+    loom_version: "1.15-SNAPSHOT"
+    fabric_api_version: "0.114.1+1.21.3"
+    notes: "Short-lived; Fabric API support stopped early — skip unless requested"
+
+  - minecraft_version: "1.21.4"
+    mappings: yarn
+    yarn_mappings: "1.21.4+build.8"
+    loader_version: "0.18.6"
+    loom_version: "1.15-SNAPSHOT"
+    fabric_api_version: "0.119.4+1.21.4"
+
+  - minecraft_version: "1.21.5"
+    mappings: yarn
+    yarn_mappings: "1.21.5+build.1"
+    loader_version: "0.18.6"
+    loom_version: "1.15-SNAPSHOT"
+    fabric_api_version: "0.128.2+1.21.5"
+    notes: "API band boundary — components/particles may differ from 1.21.4 and earlier"
+
+  - minecraft_version: "1.21.6"
+    mappings: yarn
+    yarn_mappings: "1.21.6+build.1"
+    loader_version: "0.18.6"
+    loom_version: "1.15-SNAPSHOT"
+    fabric_api_version: "0.128.2+1.21.6"
+
+  - minecraft_version: "1.21.7"
+    mappings: yarn
+    yarn_mappings: "1.21.7+build.8"
+    loader_version: "0.18.6"
+    loom_version: "1.15-SNAPSHOT"
+    fabric_api_version: "0.129.0+1.21.7"
+
+  - minecraft_version: "1.21.8"
+    mappings: yarn
+    yarn_mappings: "1.21.8+build.1"
+    loader_version: "0.18.6"
+    loom_version: "1.15-SNAPSHOT"
+    fabric_api_version: "0.136.1+1.21.8"
+
+  - minecraft_version: "1.21.9"
+    mappings: yarn
+    yarn_mappings: "1.21.9+build.1"
+    loader_version: "0.18.6"
+    loom_version: "1.15-SNAPSHOT"
+    fabric_api_version: "0.134.1+1.21.9"
+
+  - minecraft_version: "1.21.10"
+    mappings: yarn
+    yarn_mappings: "1.21.10+build.3"
+    loader_version: "0.18.6"
+    loom_version: "1.15-SNAPSHOT"
+    fabric_api_version: "0.138.4+1.21.10"
+
+  - minecraft_version: "1.21.11"
+    mappings: yarn
+    yarn_mappings: "1.21.11+build.4"
+    loader_version: "0.18.6"
+    loom_version: "1.15-SNAPSHOT"
+    fabric_api_version: "0.141.3+1.21.11"
+
+  - minecraft_version: "26.1"
+    mappings: mojmap
+    loader_version: "0.19.3"
+    loom_version: "1.17.12"
+    fabric_api_version: "0.145.1+26.1"
+    notes: "26.x anchor; Mojmap only; modImplementation → implementation; Java 25"
+
+  - minecraft_version: "26.1.1"
+    mappings: mojmap
+    loader_version: "0.19.3"
+    loom_version: "1.17.12"
+    fabric_api_version: "0.145.2+26.1.1"
+    notes: "26.1 patch line; same toolchain as 26.1"
+
+  - minecraft_version: "26.1.2"
+    mappings: mojmap
+    loader_version: "0.19.3"
+    loom_version: "1.17.12"
+    fabric_api_version: "0.152.1+26.1.2"
+    notes: "26.1 hotfix line; common ship target (LOREal mods); mc26.1.2 subproject"
+
+  - minecraft_version: "26.2"
+    mappings: mojmap
+    loader_version: "0.19.3"
+    loom_version: "1.17.12"
+    fabric_api_version: "0.152.2+26.2"
+    notes: "Current stable 26.x ship line; mc26.2 subproject; no remapJar"

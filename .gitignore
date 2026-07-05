@@ -20,6 +20,7 @@ classes/
 
 .settings/
 .vscode/
+.cursorrules
 bin/
 .classpath
 .project
@@ -38,3 +39,5 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+ref/
