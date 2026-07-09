@@ -21,13 +21,13 @@ public final class GuardNaturalSpawn {
     }
 
     public static void trySpawnWithVillager(Villager villager, ServerLevel world) {
-        if (!villager.assignProfessionWhenSpawned() || villager.getTags().contains(SPAWN_PROCESSED_TAG)) {
+        if (!villager.assignProfessionWhenSpawned() || villager.entityTags().contains(SPAWN_PROCESSED_TAG)) {
             return;
         }
 
         int radius = Math.max(1, GuardVillagersConfig.villageGuardClusterRadius);
         synchronized (clusterLock(world, villager.blockPosition(), radius)) {
-            if (villager.getTags().contains(SPAWN_PROCESSED_TAG)) {
+            if (villager.entityTags().contains(SPAWN_PROCESSED_TAG)) {
                 return;
             }
 
