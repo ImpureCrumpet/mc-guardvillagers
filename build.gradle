@@ -67,6 +67,11 @@ subprojects {
 		'dev/sterner/guardvillagers/common/entity/task/RepairGolemTask.java',
 	]
 
+	def mc262OverlayPaths = [
+		'dev/sterner/guardvillagers/GuardEntityTypes.java',
+		'dev/sterner/guardvillagers/common/entity/GuardEntity.java',
+	]
+
 	sourceSets {
 		main {
 			resources {
@@ -75,6 +80,17 @@ subprojects {
 			java {
 				if (is26) {
 					if (project.name == 'mc26.1') {
+						srcDir project.file('src/main/java')
+					} else if (project.name == 'mc26.2') {
+						def generated261 = layout.buildDirectory.dir('generated-sources/mc26.1-java')
+						tasks.register('prepareMc261Sources', Copy) {
+							from rootProject.project(':mc26.1').file('src/main/java')
+							into generated261
+							exclude mc262OverlayPaths
+						}
+						tasks.named('compileJava').configure { dependsOn 'prepareMc261Sources' }
+						tasks.named('sourcesJar').configure { dependsOn 'prepareMc261Sources' }
+						srcDir generated261
 						srcDir project.file('src/main/java')
 					} else {
 						srcDir rootProject.project(':mc26.1').file('src/main/java')

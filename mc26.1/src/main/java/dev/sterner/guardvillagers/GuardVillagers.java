@@ -1,6 +1,7 @@
 package dev.sterner.guardvillagers;
 
 import dev.sterner.guardvillagers.common.entity.GuardEntity;
+import dev.sterner.guardvillagers.GuardEntityTypes;
 import dev.sterner.guardvillagers.integration.CivilWarCompat;
 import dev.sterner.guardvillagers.common.network.GuardData;
 import dev.sterner.guardvillagers.common.network.GuardFollowPacket;
@@ -116,16 +117,16 @@ public class GuardVillagers implements ModInitializer {
         if (entity == null || attacker == null)
             return true;
         boolean shouldDamage = true;
-        boolean isVillager = entity.getType() == EntityTypes.VILLAGER || entity.getType() == GuardVillagers.GUARD_VILLAGER;
-        boolean isGolem = isVillager || entity.getType() == EntityTypes.IRON_GOLEM;
+        boolean isVillager = entity.getType() == GuardEntityTypes.VILLAGER || entity.getType() == GuardVillagers.GUARD_VILLAGER;
+        boolean isGolem = isVillager || entity.getType() == GuardEntityTypes.IRON_GOLEM;
         if (isGolem && attacker.getType() == GuardVillagers.GUARD_VILLAGER && !GuardVillagersConfig.guardArrowsHurtVillagers) {
             shouldDamage = false;
         }
         if (isVillager && attacker instanceof Mob) {
             List<Mob> list = attacker.level().getEntitiesOfClass(Mob.class, attacker.getBoundingBox().inflate(GuardVillagersConfig.guardVillagerHelpRange, 5.0D, GuardVillagersConfig.guardVillagerHelpRange));
             for (Mob mob : list) {
-                boolean type = mob.getType() == GUARD_VILLAGER || mob.getType() == EntityTypes.IRON_GOLEM;
-                boolean trueSourceGolem = attacker.getType() == GUARD_VILLAGER || attacker.getType() == EntityTypes.IRON_GOLEM;
+                boolean type = mob.getType() == GUARD_VILLAGER || mob.getType() == GuardEntityTypes.IRON_GOLEM;
+                boolean trueSourceGolem = attacker.getType() == GUARD_VILLAGER || attacker.getType() == GuardEntityTypes.IRON_GOLEM;
                 if (!trueSourceGolem && type && mob.getTarget() == null)
                     mob.setTarget((Mob) attacker);
             }

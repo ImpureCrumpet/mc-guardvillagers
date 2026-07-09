@@ -568,7 +568,11 @@ public class GuardEntity extends PathAwareEntity implements CrossbowUser, Ranged
     public List<ItemStack> getStacksFromLootTable(EquipmentSlot slot, ServerWorld serverWorld) {
         if (EQUIPMENT_SLOT_ITEMS.containsKey(slot)) {
             LootTable loot = serverWorld.getServer().getReloadableRegistries().getLootTable(EQUIPMENT_SLOT_ITEMS.get(slot));
-            LootWorldContext.Builder lootBuilder = new LootWorldContext.Builder(serverWorld).add(LootContextParameters.THIS_ENTITY, this);
+            DamageSource damageSource = serverWorld.getDamageSources().generic();
+            LootWorldContext.Builder lootBuilder = new LootWorldContext.Builder(serverWorld)
+                    .add(LootContextParameters.THIS_ENTITY, this)
+                    .add(LootContextParameters.ORIGIN, this.getPos())
+                    .add(LootContextParameters.DAMAGE_SOURCE, damageSource);
             return loot.generateLoot(lootBuilder.build(LootContextTypes.ENTITY));
         }
         return List.of();

@@ -455,7 +455,8 @@ public class GuardEntity extends PathfinderMob implements CrossbowAttackMob, Ran
     @Override
     public boolean doHurtTarget(ServerLevel world, Entity target) {
         if (this.isKicking()) {
-            ((LivingEntity) target).knockback(1.0, Mth.sin(this.getYRot() * ((float) Math.PI / 180)), -Mth.cos(this.getYRot() * ((float) Math.PI / 180)));
+            DamageSource source = world.damageSources().mobAttack(this);
+            ((LivingEntity) target).knockback(1.0, Mth.sin(this.getYRot() * ((float) Math.PI / 180)), -Mth.cos(this.getYRot() * ((float) Math.PI / 180)), source, 0f);
             this.kickTicks = 10;
             level().broadcastEntityEvent(this, (byte) 4);
             this.lookAt(target, 90.0F, 90.0F);
@@ -533,8 +534,8 @@ public class GuardEntity extends PathfinderMob implements CrossbowAttackMob, Ran
     }
 
     @Override
-    protected void blockUsingItem(ServerLevel level, LivingEntity attacker) {
-        super.blockUsingItem(level, attacker);
+    protected void blockUsingItem(ServerLevel level, LivingEntity attacker, DamageSource source, float damage) {
+        super.blockUsingItem(level, attacker, source, damage);
         if (attacker.getMainHandItem().getItem() instanceof AxeItem) this.disableShield(true, attacker.getMainHandItem().getItem());
     }
 
@@ -829,11 +830,11 @@ public class GuardEntity extends PathfinderMob implements CrossbowAttackMob, Ran
     }
 
     @Override
-    protected void blockedByItem(LivingEntity defender) {
+    protected void blockedByItem(LivingEntity defender, DamageSource source, float damage) {
         if (this.isKicking()) {
             this.setKicking(false);
         }
-        super.blockedByItem(defender);
+        super.blockedByItem(defender, source, damage);
     }
 
     @Override

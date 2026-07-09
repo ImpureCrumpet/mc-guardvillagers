@@ -1,6 +1,7 @@
 package dev.sterner.guardvillagers.common.entity.goal;
 
 import dev.sterner.guardvillagers.GuardVillagers;
+import dev.sterner.guardvillagers.GuardEntityTypes;
 import dev.sterner.guardvillagers.GuardVillagersConfig;
 import dev.sterner.guardvillagers.common.entity.GuardEntity;
 import net.minecraft.util.TimeUtil;
@@ -155,7 +156,7 @@ public class RangedCrossbowAttackPassiveGoal<T extends PathfinderMob & RangedAtt
             } else if (this.crossbowState == CrossbowState.READY_TO_ATTACK && canSee) {
                 this.mob.performRangedAttack(livingentity, 1.0F);
                 ItemStack itemstack1 = this.mob.getItemInHand(GuardVillagers.getHandWith(this.mob, item -> item instanceof CrossbowItem));
-                ((LivingEntity)this.mob).startUsingItem(ProjectileUtil.getWeaponHoldingHand(livingentity, Items.CROSSBOW));
+                ((LivingEntity)this.mob).startUsingItem(ProjectileUtil.getWeaponHoldingHand(this.mob, Items.CROSSBOW));
                 ((CrossbowAttackMob)this.mob).setChargingCrossbow(false);
                 this.crossbowState = CrossbowState.UNCHARGED;
             }
@@ -167,7 +168,7 @@ public class RangedCrossbowAttackPassiveGoal<T extends PathfinderMob & RangedAtt
         List<Entity> list = this.mob.level().getEntities(this.mob, this.mob.getBoundingBox().inflate(5.0D));
         for (Entity guard : list) {
             if (guard != this.mob.getTarget()) {
-                boolean isVillager = ((GuardEntity) this.mob).getOwner() == guard || guard.getType() == EntityTypes.VILLAGER || guard.getType() == GuardVillagers.GUARD_VILLAGER || guard.getType() == EntityTypes.IRON_GOLEM;
+                boolean isVillager = ((GuardEntity) this.mob).getOwner() == guard || guard.getType() == GuardEntityTypes.VILLAGER || guard.getType() == GuardVillagers.GUARD_VILLAGER || guard.getType() == GuardEntityTypes.IRON_GOLEM;
                 if (isVillager) {
                     Vec3 vector3d = this.mob.getLookAngle();
                     Vec3 vector3d1 = guard.position().vectorTo(this.mob.position()).normalize();

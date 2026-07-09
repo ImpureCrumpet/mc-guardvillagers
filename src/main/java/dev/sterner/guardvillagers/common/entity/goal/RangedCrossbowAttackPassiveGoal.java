@@ -156,7 +156,7 @@ public class RangedCrossbowAttackPassiveGoal<T extends PathAwareEntity & RangedA
             } else if (this.crossbowState == CrossbowState.READY_TO_ATTACK && canSee) {
                 this.mob.shootAt(livingentity, 1.0F);
                 ItemStack itemstack1 = this.mob.getStackInHand(GuardVillagers.getHandWith(this.mob, item -> item instanceof CrossbowItem));
-                ((LivingEntity)this.mob).setCurrentHand(ProjectileUtil.getHandPossiblyHolding(livingentity, Items.CROSSBOW));
+                ((LivingEntity)this.mob).setCurrentHand(ProjectileUtil.getHandPossiblyHolding(this.mob, Items.CROSSBOW));
                 ((CrossbowUser)this.mob).setCharging(false);
                 this.crossbowState = CrossbowState.UNCHARGED;
             }

@@ -39,7 +39,7 @@ Built from `mc*` Gradle subprojects on **`main`**:
 | `mc1.21.5` | Builds (`mc1.21.4` tree + `mc1.21.5` mid-band overlay) |
 | `mc1.21.6` – `mc1.21.10` | WIP (shared overlays; per-version mixin API sync pending) |
 | `mc1.21.11` | Builds (`mc1.21.4` + `mc1.21.5` overlays + `mc1.21.11` late-band overrides) |
-| `mc26.1` – `mc26.2` | Builds (Mojmap source in `mc26.1/`) |
+| `mc26.1` – `mc26.2` | Builds (Mojmap; `mc26.1` base + `mc26.2` late-band overlays) |
 
 ## Requirements
 

@@ -16,7 +16,7 @@ repositories {
 dependencies {
 	minecraft "com.mojang:minecraft:26.1.1"
 	implementation "net.fabricmc:fabric-loader:0.19.3"
-	implementation "net.fabricmc.fabric-api:fabric-api:0.145.2+26.1.1"
+	implementation "net.fabricmc.fabric-api:fabric-api:0.152.1+26.1.2"
 	implementation include("eu.midnightdust:midnightlib:1.9.3+26.2-pre-3-fabric")
 }
 

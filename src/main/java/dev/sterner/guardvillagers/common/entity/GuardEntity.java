@@ -49,6 +49,7 @@ import net.minecraft.item.*;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
@@ -576,8 +577,12 @@ public class GuardEntity extends PathAwareEntity implements CrossbowUser, Ranged
     public List<ItemStack> getStacksFromLootTable(EquipmentSlot slot, ServerWorld serverWorld) {
         if (EQUIPMENT_SLOT_ITEMS.containsKey(slot)) {
             LootTable loot = serverWorld.getServer().getReloadableRegistries().getLootTable(EQUIPMENT_SLOT_ITEMS.get(slot));
-            LootContextParameterSet.Builder lootcontext$builder = (new LootContextParameterSet.Builder((ServerWorld) getWorld()).add(LootContextParameters.THIS_ENTITY, this));
-            return loot.generateLoot(lootcontext$builder.build(GuardEntityLootTables.SLOT));
+            DamageSource damageSource = serverWorld.getDamageSources().generic();
+            LootContextParameterSet.Builder lootcontext$builder = new LootContextParameterSet.Builder(serverWorld)
+                    .add(LootContextParameters.THIS_ENTITY, this)
+                    .add(LootContextParameters.ORIGIN, this.getPos())
+                    .add(LootContextParameters.DAMAGE_SOURCE, damageSource);
+            return loot.generateLoot(lootcontext$builder.build(LootContextTypes.ENTITY));
         }
         return List.of();
     }
