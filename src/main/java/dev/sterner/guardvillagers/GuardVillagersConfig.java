@@ -63,6 +63,11 @@ public class GuardVillagersConfig extends MidnightConfig {
     public static boolean villagersRunFromPolarBears = true;
     @Entry
     public static boolean guardArrowsHurtVillagers = true;
+    // One-time roll when each natural villager is first processed (e.g. after upgrade); set 0 for minimum-fill only.
     @Entry
-    public static float spawnChancePerVillager = 0.5f;
+    public static float spawnChancePerVillager = 0.2f;
+    @Entry
+    public static int minimumGuardsPerVillage = 1;
+    @Entry
+    public static int villageGuardClusterRadius = 64;
 }

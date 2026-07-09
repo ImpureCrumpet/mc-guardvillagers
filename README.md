@@ -81,6 +81,14 @@ Output JARs: `mc<version>/build/libs/guardvillagers-<mod_version>+<minecraft>.ja
 
 See [`.cursor/fabric-mod-build-release-guide-v4.3.md`](.cursor/fabric-mod-build-release-guide-v4.3.md) for the multi-version workflow.
 
+## Natural guard spawning
+
+Natural villagers can spawn guards on chunk load based on config (`spawnChancePerVillager`, `minimumGuardsPerVillage`, `villageGuardClusterRadius`). Each villager is processed at most once via the `guardvillagers.natural_spawn_processed` command tag.
+
+**Upgrading existing worlds:** Natural villagers without that tag are processed once on their next chunk load. That can add guards from the spawn chance (default 20%) and fill empty clusters up to the minimum. This is a one-time migration, not ongoing duplication. Set `spawnChancePerVillager` to `0` if you only want minimum-fill on upgrade.
+
+See [docs/civil-war-compat.md](docs/civil-war-compat.md) for Mob Civil War coexistence notes.
+
 ## License
 
 This Fabric fork is released under [CC0 1.0 Universal](LICENSE) (public domain dedication), matching `fabric.mod.json`.

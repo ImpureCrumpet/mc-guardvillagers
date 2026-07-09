@@ -1,6 +1,7 @@
 package dev.sterner.guardvillagers;
 
 import dev.sterner.guardvillagers.common.entity.GuardEntity;
+import dev.sterner.guardvillagers.integration.CivilWarCompat;
 import dev.sterner.guardvillagers.common.network.GuardData;
 import dev.sterner.guardvillagers.common.network.GuardFollowPacket;
 import dev.sterner.guardvillagers.common.network.GuardPatrolPacket;
@@ -38,7 +39,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -81,6 +81,7 @@ public class GuardVillagers implements ModInitializer {
     @Override
     public void onInitialize() {
         MidnightConfig.init(MODID, GuardVillagersConfig.class);
+        CivilWarCompat.onGuardVillagersInitialized();
         FabricDefaultAttributeRegistry.register(GUARD_VILLAGER, GuardEntity.createAttributes());
 
         Registry.register(Registries.SCREEN_HANDLER, id("guard_screen"), GUARD_SCREEN_HANDLER);
@@ -103,28 +104,8 @@ public class GuardVillagers implements ModInitializer {
         UseEntityCallback.EVENT.register(this::villagerConvert);
 
         ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
-            if (entity instanceof VillagerEntity villagerEntity && villagerEntity.isNatural()) {
-                var spawnChance = MathHelper.clamp(GuardVillagersConfig.spawnChancePerVillager, 0f, 1f);
-                if (world.random.nextFloat() < spawnChance) {
-                    GuardEntity guardEntity = GUARD_VILLAGER.create(world, SpawnReason.NATURAL);
-                    guardEntity.spawnWithArmor = true;
-                    guardEntity.initialize(world, world.getLocalDifficulty(villagerEntity.getBlockPos()), SpawnReason.NATURAL, null);
-                    guardEntity.refreshPositionAndAngles(villagerEntity.getBlockPos(), 0.0f, 0.0f);
-
-                    int i = GuardEntity.getRandomTypeForBiome(guardEntity.getWorld(), guardEntity.getBlockPos());
-                    guardEntity.setGuardVariant(i);
-                    guardEntity.setPersistent();
-                    guardEntity.setCustomName(villagerEntity.getCustomName());
-                    guardEntity.setCustomNameVisible(villagerEntity.isCustomNameVisible());
-                    guardEntity.setEquipmentDropChance(EquipmentSlot.HEAD, 100.0F);
-                    guardEntity.setEquipmentDropChance(EquipmentSlot.CHEST, 100.0F);
-                    guardEntity.setEquipmentDropChance(EquipmentSlot.FEET, 100.0F);
-                    guardEntity.setEquipmentDropChance(EquipmentSlot.LEGS, 100.0F);
-                    guardEntity.setEquipmentDropChance(EquipmentSlot.MAINHAND, 100.0F);
-                    guardEntity.setEquipmentDropChance(EquipmentSlot.OFFHAND, 100.0F);
-
-                    world.spawnEntityAndPassengers(guardEntity);
-                }
+            if (entity instanceof VillagerEntity villagerEntity && world instanceof ServerWorld serverWorld) {
+                GuardNaturalSpawn.trySpawnWithVillager(villagerEntity, serverWorld);
             }
         });
     }

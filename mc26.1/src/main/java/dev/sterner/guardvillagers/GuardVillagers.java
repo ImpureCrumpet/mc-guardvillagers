@@ -1,6 +1,7 @@
 package dev.sterner.guardvillagers;
 
 import dev.sterner.guardvillagers.common.entity.GuardEntity;
+import dev.sterner.guardvillagers.integration.CivilWarCompat;
 import dev.sterner.guardvillagers.common.network.GuardData;
 import dev.sterner.guardvillagers.common.network.GuardFollowPacket;
 import dev.sterner.guardvillagers.common.network.GuardPatrolPacket;
@@ -22,6 +23,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
@@ -77,6 +79,7 @@ public class GuardVillagers implements ModInitializer {
     @Override
     public void onInitialize() {
         MidnightConfig.init(MODID, GuardVillagersConfig.class);
+        CivilWarCompat.onGuardVillagersInitialized();
         FabricDefaultAttributeRegistry.register(GUARD_VILLAGER, GuardEntity.createAttributes());
 
         Registry.register(BuiltInRegistries.ENTITY_TYPE, GUARD_VILLAGER_KEY, GUARD_VILLAGER);
@@ -101,28 +104,8 @@ public class GuardVillagers implements ModInitializer {
         UseEntityCallback.EVENT.register(this::villagerConvert);
 
         ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
-            if (entity instanceof Villager villagerEntity && villagerEntity.assignProfessionWhenSpawned()) {
-                var spawnChance = Mth.clamp(GuardVillagersConfig.spawnChancePerVillager, 0f, 1f);
-                if (world.getRandom().nextFloat() < spawnChance) {
-                    GuardEntity guardEntity = GUARD_VILLAGER.create(world, EntitySpawnReason.MOB_SUMMONED);
-                    guardEntity.spawnWithArmor= true;
-                    guardEntity.finalizeSpawn(world, world.getCurrentDifficultyAt(villagerEntity.blockPosition()), EntitySpawnReason.NATURAL, null);
-                    guardEntity.snapTo(villagerEntity.blockPosition(), 0.0f, 0.0f);
-
-                    int i = GuardEntity.getRandomTypeForBiome(guardEntity.level(), guardEntity.blockPosition());
-                    guardEntity.setGuardVariant(i);
-                    guardEntity.setPersistenceRequired();
-                    guardEntity.setCustomName(villagerEntity.getCustomName());
-                    guardEntity.setCustomNameVisible(villagerEntity.isCustomNameVisible());
-                    guardEntity.setDropChance(EquipmentSlot.HEAD, 100.0F);
-                    guardEntity.setDropChance(EquipmentSlot.CHEST, 100.0F);
-                    guardEntity.setDropChance(EquipmentSlot.FEET, 100.0F);
-                    guardEntity.setDropChance(EquipmentSlot.LEGS, 100.0F);
-                    guardEntity.setDropChance(EquipmentSlot.MAINHAND, 100.0F);
-                    guardEntity.setDropChance(EquipmentSlot.OFFHAND, 100.0F);
-
-                    world.addFreshEntityWithPassengers(guardEntity);
-                }
+            if (entity instanceof Villager villagerEntity && world instanceof ServerLevel serverLevel) {
+                GuardNaturalSpawn.trySpawnWithVillager(villagerEntity, serverLevel);
             }
         });
     }
