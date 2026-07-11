@@ -1,6 +1,6 @@
 ---
 name: mc-fabric-modmenu-integration
-description: "Ensures Fabric mods present Mod Menu metadata and config screens correctly: fabric.mod.json custom.modmenu block, translation keys, ModMenuApi entrypoints, Cloth Config wiring, and multi-version Gradle dependency conventions."
+description: "Ensures Fabric mods present Mod Menu metadata and config screens correctly: fabric.mod.json custom.modmenu block, translation keys, ModMenuApi entrypoints, Cloth Config and MidnightLib wiring, and multi-version Gradle dependency conventions."
 triggers:
   - mod menu
   - modmenu
@@ -14,12 +14,16 @@ triggers:
   - custom.modmenu
   - modmenu.descriptionTranslation
   - cloth config mod menu
+  - midnightconfig
+  - midnightlib
+  - MidnightConfig
+  - midnightconfig tooltip
   - mod menu integration
   - mod menu metadata
   - mod menu badge
   - library badge modmenu
 dependencies: []
-version: "1.0.0"
+version: "1.1.0"
 ---
 
 # Fabric Mod Menu integration
@@ -36,6 +40,7 @@ version: "1.0.0"
 | Links, badges, parent grouping, update-checker opt-out | `fabric.mod.json` → `custom.modmenu` | No |
 | **Configure…** button opens your settings | `ModMenuApi` + `entrypoints.modmenu` | Yes |
 | Settings built with Cloth Config | `ModMenuApi.getModConfigScreenFactory` returning a Cloth `Screen` | Yes |
+| Settings via `MidnightConfig` | `MidnightConfig.init(modid, Config.class)` — MidnightLib registers the button | Init only |
 | API module that should stay hidden | `"badges": ["library"]` + optional `"environment": "client"` | Metadata only |
 
 If the mod has **no** user-facing config, skip the Java API — still add metadata when the mod is client-facing or split into modules.
@@ -160,7 +165,7 @@ public class MymodModMenu implements ModMenuApi {
 
 ### Do not use `getProvidedConfigScreenFactories` for your own mod
 
-That map is for **libraries** (e.g. Cloth Config) registering screens for **other** mod ids. Your mod’s button comes only from `getModConfigScreenFactory` on **its** entrypoint.
+That map is for **libraries** (e.g. Cloth Config, **MidnightLib**) registering screens for **other** mod ids. Your mod’s button comes from `getModConfigScreenFactory` on **your** entrypoint — or, for MidnightLib, from MidnightLib’s own provider after `MidnightConfig.init(...)`. Do **not** add a custom `ModMenuApi` just to re-register your MidnightConfig screen.
 
 ## 6. Cloth Config path
 
@@ -179,6 +184,55 @@ public ConfigScreenFactory<?> getModConfigScreenFactory() {
 3. Keep Cloth Config on `modApi` / `modImplementation` as your Cloth docs require; Mod Menu stays `implementation` / `modCompileOnly`.
 4. If the config class or screen builder is version-specific, place the `ModMenuApi` class in the **client** source set of each `mc*` subproject (same pattern as other client entrypoints).
 
+## 6b. MidnightLib path
+
+When settings extend `MidnightConfig` ([MidnightLib](https://modrinth.com/mod/midnightlib), bundled or declared as a dependency), **no `ModMenuApi` entrypoint is required** — MidnightLib registers **Configure…** via `getProvidedConfigScreenFactories` for mods that call `MidnightConfig.init(...)` during mod init.
+
+```java
+MidnightConfig.init(MODID, MyModConfig.class);
+```
+
+`MyModConfig` extends `MidnightConfig` with `@Entry` fields (and optional `@Comment` intros, `@Condition` on 1.9.x+).
+
+### Translation keys (config screen)
+
+Prefix: `<modid>.midnightconfig.` (e.g. `guardvillagers.midnightconfig.`).
+
+| Key | Used for |
+|---|---|
+| `<modid>.midnightconfig.title` | Screen title |
+| `<modid>.midnightconfig.category.<name>` | Tab label (`@Entry(category = "…")`) |
+| `<modid>.midnightconfig.<fieldName>` | Option label — **must match** the `@Entry` / `@Comment` Java field name |
+| `<modid>.midnightconfig.<fieldName>.label.tooltip` | Hover on the **label** (`EntryInfo.getTooltip(false)`) |
+| `<modid>.midnightconfig.<fieldName>.tooltip` | Hover on the **control** (toggle, slider, text field; `getTooltip(true)`) |
+
+`EntryInfo.getTooltip(boolean isButton)` builds the key as `translationKey + (isButton ? "" : ".label") + ".tooltip"`. Missing keys show no tooltip — labels do **not** fall back to `.tooltip` when only `.label.tooltip` is absent (set **both** when label and control should share the same help text).
+
+`@Comment` intro lines use the field name as the translation key (e.g. `guardsIntro` → `guardvillagers.midnightconfig.guardsIntro`).
+
+Example (`en_us.json`):
+
+```json
+{
+  "mymod.midnightconfig.title": "My Mod",
+  "mymod.midnightconfig.category.general": "General",
+  "mymod.midnightconfig.generalIntro": "Short intro shown at the top of the tab.",
+  "mymod.midnightconfig.enableFeature": "Enable Feature",
+  "mymod.midnightconfig.enableFeature.label.tooltip": "Shown when hovering the option name.",
+  "mymod.midnightconfig.enableFeature.tooltip": "Shown when hovering the toggle."
+}
+```
+
+### MidnightLib version notes
+
+| Feature | 1.5.7 (1.21.x) | 1.9.x (26.x) |
+|---|---|---|
+| `@Comment` tab intros | yes | yes |
+| `.label.tooltip` / `.tooltip` split | yes (`MidnightConfig$EntryInfo`) | yes (`EntryInfo`) |
+| `@Condition` (show/hide fields) | **no** | yes |
+
+Source: MidnightLib `EntryInfo.getTooltip()` (1.9.x) and `MidnightConfig$EntryInfo` (1.5.7). Validated on mc-guardvillagers (1.5.7 on 1.21.11, 1.9.x on 26.2).
+
 ## 7. Multi-version subprojects
 
 - **Metadata** (`custom.modmenu`, lang keys): usually identical in every subproject’s `fabric.mod.json`; duplicate or merge from root `src/main/resources` per your repo’s resource strategy.
@@ -192,17 +246,20 @@ Run in a **client** dev env with Mod Menu on the runtime classpath (or in `mods/
 
 1. Open Mod Menu → find the mod by name; search **configurable** filter should list it when a config factory is registered.
 2. Select the mod → description, links, badges, and credits look correct (not raw translation keys).
-3. **Configure…** appears only when `getModConfigScreenFactory` returns a non-null factory; click opens your screen; **Done** returns to Mod Menu without error.
+3. **Configure…** appears when a config factory is registered (your `ModMenuApi`, Cloth Config, or MidnightLib after `MidnightConfig.init`); click opens your screen; **Done** returns to Mod Menu without error.
 4. If using Cloth Config, confirm `AutoConfig` / builder matches the serialized config file on disk after save.
-5. Library/API modules: hidden by default with `library` badge; visible when **Libraries → Shown**.
-6. Multi-module: children nest under the parent; dummy parent shows once with shared icon/description.
-7. Dedicated-server pack audit: `modmenu` not in server `mods/` (client-only).
+5. If using MidnightLib, confirm every `@Entry` field has a matching `<fieldName>` label key; tooltips use `.label.tooltip` and `.tooltip` as needed (§6b).
+6. Library/API modules: hidden by default with `library` badge; visible when **Libraries → Shown**.
+7. Multi-module: children nest under the parent; dummy parent shows once with shared icon/description.
+8. Dedicated-server pack audit: `modmenu` not in server `mods/` (client-only).
 
 ### Common failures
 
 | Symptom | Likely cause |
 |---|---|
-| No **Configure…** button | Missing `entrypoints.modmenu`, factory returns null, or entrypoint in wrong mod container |
+| No **Configure…** button | Missing `entrypoints.modmenu`, factory returns null, entrypoint in wrong mod container, or `MidnightConfig.init` not called |
+| Raw `mymod.midnightconfig.fieldName` in config UI | Lang key missing or Java `@Entry` field name does not match the key suffix |
+| Label has no tooltip but control does | Only `.tooltip` set — labels need `.label.tooltip` (no fallback) |
 | `Failed to load config screen for '…'` | Factory throws; fix stack trace in log — Mod Menu shows this for the **target mod id**, not Mod Menu itself |
 | Raw `modmenu.descriptionTranslation.foo` in UI | Missing lang entry for that mod id |
 | Config works in dev, not for players | Forgot to ship the `modmenu` entrypoint class in the release JAR (client source set / split not wired) |
@@ -218,6 +275,7 @@ Run in a **client** dev env with Mod Menu on the runtime classpath (or in `mods/
 ## Examples
 
 - "Add Mod Menu config for our Cloth settings" → §4–6: `ModMenuApi`, `entrypoints.modmenu`, `AutoConfig.getConfigScreen`.
+- "Polish MidnightLib config labels and tooltips" → §6b: `midnightconfig.*` keys, `.label.tooltip` vs `.tooltip`.
 - "Hide our API module from the default list" → §2: `"badges": ["library"]`.
 - "Group `mymod-core` and `mymod-client` under one parent" → §2 parents + consistent dummy parent metadata in both JARs.
 - "Port Mod Menu wiring to mc26.2" → §4 `implementation` dependency + verify Mod Menu release supports 26.2.
