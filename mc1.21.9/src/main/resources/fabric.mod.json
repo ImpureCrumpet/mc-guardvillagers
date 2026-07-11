@@ -8,7 +8,11 @@
     "MrSterner",
     "ImpureCrumpet"
   ],
-  "contact": {},
+  "contact": {
+    "homepage": "https://github.com/ImpureCrumpet/mc-guardvillagers",
+    "sources": "https://github.com/ImpureCrumpet/mc-guardvillagers",
+    "issues": "https://github.com/ImpureCrumpet/mc-guardvillagers/issues"
+  },
   "license": "CC0-1.0",
   "icon": "assets/guardvillagers/icon.png",
   "environment": "*",
@@ -32,5 +36,13 @@
   },
   "suggests": {
     "civil-war": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.github_releases": "https://github.com/ImpureCrumpet/mc-guardvillagers/releases",
+        "guardvillagers.docs": "https://github.com/ImpureCrumpet/mc-guardvillagers/blob/main/docs/config.md"
+      }
+    }
   }
 }

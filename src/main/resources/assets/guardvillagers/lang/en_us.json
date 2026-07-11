@@ -3,26 +3,148 @@
   "item.guardvillagers.guard_spawn_egg": "Guard Spawn Egg",
   "guardinventory.health": "Health: %s",
   "guardinventory.armor": "Armor: %s",
-  "guardvillagers.midnightconfig.useSteveModel": "Use Steve Model",
-  "guardvillagers.midnightconfig.guardsRunFromPolarBears": "Guards Run From Polar Bear",
-  "guardvillagers.midnightconfig.guardFormation": "Guard Formation",
-  "guardvillagers.midnightconfig.clericHealing": "Cleric Healing",
-  "guardvillagers.midnightconfig.armorerRepairGuardArmor": "Armorer Repair Guard Armor",
-  "guardvillagers.midnightconfig.guardsOpenDoors": "Guards Open Doors",
-  "guardvillagers.midnightconfig.giveGuardStuffHotv": "Require HOTV To Give Guards Stuff",
-  "guardvillagers.midnightconfig.setGuardPatrolHotv": "Require HOTV To Set Guards Patrol",
-  "guardvillagers.midnightconfig.guardAlwaysShield": "Guard Always Shield",
-  "guardvillagers.midnightconfig.friendlyFire": "Friendly Fire",
-  "guardvillagers.midnightconfig.guardArrowsHurtVillagers": "Guard Arrows Hurt Villagers",
-  "guardvillagers.midnightconfig.raidAnimals": "Raiders Will Attack Animals",
-  "guardvillagers.midnightconfig.witchesVillager": "Witches Will Attack Villagers",
-  "guardvillagers.midnightconfig.blackSmithHealing": "Blacksmith Will Heal Iron Golems",
-  "guardvillagers.midnightconfig.convertVillagerIfHaveHotv": "Require HOTV To Convert Villagers",
-  "guardvillagers.midnightconfig.guardAttackMobBlacklist": "Guard Attack Blacklist",
-  "guardvillagers.midnightconfig.guardVillagerHelpRange": "Guard Help Range",
-  "guardvillagers.midnightconfig.amountOfHealthRegenerated": "Guard Regen",
-  "guardvillagers.midnightconfig.attackAllMobs": "Guard Attack All Mobs",
-  "guardvillagers.midnightconfig.spawnChancePerVillager": "Natural Guard Spawn Chance Per Villager",
-  "guardvillagers.midnightconfig.minimumGuardsPerVillage": "Minimum Guards Per Village Cluster",
-  "guardvillagers.midnightconfig.villageGuardClusterRadius": "Village Guard Cluster Radius"
+
+  "modmenu.nameTranslation.guardvillagers": "Guard Villagers",
+  "modmenu.summaryTranslation.guardvillagers": "Armed villagers defend your settlements.",
+  "modmenu.descriptionTranslation.guardvillagers": "Adds guard villagers that patrol, fight raiders, and protect the village. Configure spawning, combat, reputation gates, and villager AI from Mod Menu.",
+  "modmenu.link.guardvillagers.docs": "Configuration Guide",
+
+  "guardvillagers.midnightconfig.title": "Guard Villagers",
+  "guardvillagers.midnightconfig.category.guards": "Guards",
+  "guardvillagers.midnightconfig.category.combat": "Combat",
+  "guardvillagers.midnightconfig.category.interaction": "Interaction",
+  "guardvillagers.midnightconfig.category.village": "Village",
+  "guardvillagers.midnightconfig.category.spawning": "Spawning",
+  "guardvillagers.midnightconfig.category.stats": "Stats",
+
+  "guardvillagers.midnightconfig.guardsIntro": "Patrol behavior, healing, equipment drops, and guard appearance.",
+  "guardvillagers.midnightconfig.combatIntro": "Targeting rules, shields, ally help range, and projectile damage.",
+  "guardvillagers.midnightconfig.interactionIntro": "Village reputation and Hero of the Village requirements for player actions.",
+  "guardvillagers.midnightconfig.villageIntro": "Raid behavior and villager AI tweaks around your settlement.",
+  "guardvillagers.midnightconfig.spawningIntro": "Natural guard spawning when villagers are first processed on chunk load.",
+  "guardvillagers.midnightconfig.statsIntro": "Base attributes for newly spawned guards. Does not change guards already in the world.",
+
+  "guardvillagers.midnightconfig.guardEntitysOpenDoors": "Open Doors",
+  "guardvillagers.midnightconfig.guardEntitysOpenDoors.tooltip": "Guards can open doors and path through them while patrolling.",
+  "guardvillagers.midnightconfig.guardEntitysOpenDoors.label.tooltip": "Guards can open doors and path through them while patrolling.",
+
+  "guardvillagers.midnightconfig.guardEntityFormation": "Shield Formation",
+  "guardvillagers.midnightconfig.guardEntityFormation.tooltip": "Shield-bearing guards group up and hold formation during fights.",
+  "guardvillagers.midnightconfig.guardEntityFormation.label.tooltip": "Shield-bearing guards group up and hold formation during fights.",
+
+  "guardvillagers.midnightconfig.guardEntitysRunFromPolarBears": "Flee Polar Bears",
+  "guardvillagers.midnightconfig.guardEntitysRunFromPolarBears.tooltip": "Guards run from polar bears instead of engaging them.",
+  "guardvillagers.midnightconfig.guardEntitysRunFromPolarBears.label.tooltip": "Guards run from polar bears instead of engaging them.",
+
+  "guardvillagers.midnightconfig.followHero": "Follow Hero of the Village",
+  "guardvillagers.midnightconfig.followHero.tooltip": "Guards can follow a player with the Hero of the Village effect.",
+  "guardvillagers.midnightconfig.followHero.label.tooltip": "Guards can follow a player with the Hero of the Village effect.",
+
+  "guardvillagers.midnightconfig.clericHealing": "Seek Cleric Healing",
+  "guardvillagers.midnightconfig.clericHealing.tooltip": "Injured guards path to clerics for healing.",
+  "guardvillagers.midnightconfig.clericHealing.label.tooltip": "Injured guards path to clerics for healing.",
+
+  "guardvillagers.midnightconfig.armorerRepairGuardEntityArmor": "Armorer Armor Repair",
+  "guardvillagers.midnightconfig.armorerRepairGuardEntityArmor.tooltip": "Guards visit armorers to repair damaged armor.",
+  "guardvillagers.midnightconfig.armorerRepairGuardEntityArmor.label.tooltip": "Guards visit armorers to repair damaged armor.",
+
+  "guardvillagers.midnightconfig.amountOfHealthRegenerated": "Passive Regeneration",
+  "guardvillagers.midnightconfig.amountOfHealthRegenerated.tooltip": "Health restored every few seconds while a guard is injured.",
+  "guardvillagers.midnightconfig.amountOfHealthRegenerated.label.tooltip": "Health restored every few seconds while a guard is injured.",
+
+  "guardvillagers.midnightconfig.chanceToDropEquipment": "Equipment Drop Chance",
+  "guardvillagers.midnightconfig.chanceToDropEquipment.tooltip": "Chance on death from 0 to 1. 1 always drops unless prevent-drop enchantments apply. Existing configs using 100 still behave as always drop.",
+  "guardvillagers.midnightconfig.chanceToDropEquipment.label.tooltip": "Chance on death from 0 to 1. 1 always drops unless prevent-drop enchantments apply. Existing configs using 100 still behave as always drop.",
+
+  "guardvillagers.midnightconfig.useSteveModel": "Use Player Model",
+  "guardvillagers.midnightconfig.useSteveModel.tooltip": "Render guards with the classic player model instead of the villager-style guard model.",
+  "guardvillagers.midnightconfig.useSteveModel.label.tooltip": "Render guards with the classic player model instead of the villager-style guard model.",
+
+  "guardvillagers.midnightconfig.guardAlwaysShield": "Always Raise Shield",
+  "guardvillagers.midnightconfig.guardAlwaysShield.tooltip": "Keep shields raised whenever possible, not only when enemies are nearby.",
+  "guardvillagers.midnightconfig.guardAlwaysShield.label.tooltip": "Keep shields raised whenever possible, not only when enemies are nearby.",
+
+  "guardvillagers.midnightconfig.friendlyFire": "Avoid Friendly Fire",
+  "guardvillagers.midnightconfig.friendlyFire.tooltip": "Crossbow guards step aside when villagers, golems, or other guards are in their line of fire.",
+  "guardvillagers.midnightconfig.friendlyFire.label.tooltip": "Crossbow guards step aside when villagers, golems, or other guards are in their line of fire.",
+
+  "guardvillagers.midnightconfig.guardArrowsHurtVillagers": "Projectiles Hurt Villagers",
+  "guardvillagers.midnightconfig.guardArrowsHurtVillagers.tooltip": "When off, guard arrows and crossbow bolts do not damage villagers or iron golems.",
+  "guardvillagers.midnightconfig.guardArrowsHurtVillagers.label.tooltip": "When off, guard arrows and crossbow bolts do not damage villagers or iron golems.",
+
+  "guardvillagers.midnightconfig.attackAllMobs": "Attack All Hostile Mobs",
+  "guardvillagers.midnightconfig.attackAllMobs.tooltip": "Target any hostile mob, not only raiders, witches, ravagers, and zombies.",
+  "guardvillagers.midnightconfig.attackAllMobs.label.tooltip": "Target any hostile mob, not only raiders, witches, ravagers, and zombies.",
+
+  "guardvillagers.midnightconfig.mobBlackList": "Attack Blacklist",
+  "guardvillagers.midnightconfig.mobBlackList.tooltip": "Entity IDs guards never attack, such as minecraft:creeper. Most useful when Attack All Hostile Mobs is enabled.",
+  "guardvillagers.midnightconfig.mobBlackList.label.tooltip": "Entity IDs guards never attack, such as minecraft:creeper. Most useful when Attack All Hostile Mobs is enabled.",
+
+  "guardvillagers.midnightconfig.guardVillagerHelpRange": "Ally Help Range",
+  "guardvillagers.midnightconfig.guardVillagerHelpRange.tooltip": "How far in blocks allies search when joining a fight.",
+  "guardvillagers.midnightconfig.guardVillagerHelpRange.label.tooltip": "How far in blocks allies search when joining a fight.",
+
+  "guardvillagers.midnightconfig.reputationRequirement": "Reputation to Interact",
+  "guardvillagers.midnightconfig.reputationRequirement.tooltip": "Minimum village reputation to open a guard inventory or trade items, unless Hero overrides apply.",
+  "guardvillagers.midnightconfig.reputationRequirement.label.tooltip": "Minimum village reputation to open a guard inventory or trade items, unless Hero overrides apply.",
+
+  "guardvillagers.midnightconfig.reputationRequirementToBeAttacked": "Reputation to Anger",
+  "guardvillagers.midnightconfig.reputationRequirementToBeAttacked.tooltip": "At this reputation or lower, guards may attack you.",
+  "guardvillagers.midnightconfig.reputationRequirementToBeAttacked.label.tooltip": "At this reputation or lower, guards may attack you.",
+
+  "guardvillagers.midnightconfig.giveGuardStuffHotv": "Hero Required to Equip",
+  "guardvillagers.midnightconfig.giveGuardStuffHotv.tooltip": "Require Hero of the Village to give items to guards. Reputation still applies when off.",
+  "guardvillagers.midnightconfig.giveGuardStuffHotv.label.tooltip": "Require Hero of the Village to give items to guards. Reputation still applies when off.",
+
+  "guardvillagers.midnightconfig.setGuardPatrolHotv": "Hero Required for Patrol",
+  "guardvillagers.midnightconfig.setGuardPatrolHotv.tooltip": "Require Hero of the Village to set a guard patrol point.",
+  "guardvillagers.midnightconfig.setGuardPatrolHotv.label.tooltip": "Require Hero of the Village to set a guard patrol point.",
+
+  "guardvillagers.midnightconfig.convertVillagerIfHaveHotv": "Hero Required to Convert",
+  "guardvillagers.midnightconfig.convertVillagerIfHaveHotv.tooltip": "Require Hero of the Village to convert a villager with a sword or crossbow.",
+  "guardvillagers.midnightconfig.convertVillagerIfHaveHotv.label.tooltip": "Require Hero of the Village to convert a villager with a sword or crossbow.",
+
+  "guardvillagers.midnightconfig.raidAnimals": "Raiders Attack Animals",
+  "guardvillagers.midnightconfig.raidAnimals.tooltip": "During raids, raiders also target nearby animals.",
+  "guardvillagers.midnightconfig.raidAnimals.label.tooltip": "During raids, raiders also target nearby animals.",
+
+  "guardvillagers.midnightconfig.witchesVillager": "Witches Attack Villagers",
+  "guardvillagers.midnightconfig.witchesVillager.tooltip": "Witches actively target villagers and related village NPCs.",
+  "guardvillagers.midnightconfig.witchesVillager.label.tooltip": "Witches actively target villagers and related village NPCs.",
+
+  "guardvillagers.midnightconfig.blackSmithHealing": "Smiths Repair Golems",
+  "guardvillagers.midnightconfig.blackSmithHealing.tooltip": "Toolsmiths and weaponsmiths can repair injured iron golems.",
+  "guardvillagers.midnightconfig.blackSmithHealing.label.tooltip": "Toolsmiths and weaponsmiths can repair injured iron golems.",
+
+  "guardvillagers.midnightconfig.illagersRunFromPolarBears": "Illagers Flee Polar Bears",
+  "guardvillagers.midnightconfig.illagersRunFromPolarBears.tooltip": "Illagers run from polar bears.",
+  "guardvillagers.midnightconfig.illagersRunFromPolarBears.label.tooltip": "Illagers run from polar bears.",
+
+  "guardvillagers.midnightconfig.villagersRunFromPolarBears": "Villagers Flee Polar Bears",
+  "guardvillagers.midnightconfig.villagersRunFromPolarBears.tooltip": "Villagers run from polar bears.",
+  "guardvillagers.midnightconfig.villagersRunFromPolarBears.label.tooltip": "Villagers run from polar bears.",
+
+  "guardvillagers.midnightconfig.spawnChancePerVillager": "Spawn Chance",
+  "guardvillagers.midnightconfig.spawnChancePerVillager.tooltip": "One-time roll from 0 to 1 when a natural villager is first processed. Use 0 for minimum-fill only.",
+  "guardvillagers.midnightconfig.spawnChancePerVillager.label.tooltip": "One-time roll from 0 to 1 when a natural villager is first processed. Use 0 for minimum-fill only.",
+
+  "guardvillagers.midnightconfig.minimumGuardsPerVillage": "Minimum per Cluster",
+  "guardvillagers.midnightconfig.minimumGuardsPerVillage.tooltip": "After the chance roll, fill sparse clusters up to this many guards.",
+  "guardvillagers.midnightconfig.minimumGuardsPerVillage.label.tooltip": "After the chance roll, fill sparse clusters up to this many guards.",
+
+  "guardvillagers.midnightconfig.villageGuardClusterRadius": "Cluster Radius",
+  "guardvillagers.midnightconfig.villageGuardClusterRadius.tooltip": "Block radius for counting nearby guards and villagers when spawning.",
+  "guardvillagers.midnightconfig.villageGuardClusterRadius.label.tooltip": "Block radius for counting nearby guards and villagers when spawning.",
+
+  "guardvillagers.midnightconfig.healthModifier": "Max Health",
+  "guardvillagers.midnightconfig.healthModifier.tooltip": "Base maximum health for newly spawned guards.",
+  "guardvillagers.midnightconfig.healthModifier.label.tooltip": "Base maximum health for newly spawned guards.",
+
+  "guardvillagers.midnightconfig.speedModifier": "Movement Speed",
+  "guardvillagers.midnightconfig.speedModifier.tooltip": "Base movement speed for guards.",
+  "guardvillagers.midnightconfig.speedModifier.label.tooltip": "Base movement speed for guards.",
+
+  "guardvillagers.midnightconfig.followRangeModifier": "Detection Range",
+  "guardvillagers.midnightconfig.followRangeModifier.tooltip": "How far guards can detect and pursue targets.",
+  "guardvillagers.midnightconfig.followRangeModifier.label.tooltip": "How far guards can detect and pursue targets."
 }

@@ -81,6 +81,12 @@ Output JARs: `mc<version>/build/libs/guardvillagers-<mod_version>+<minecraft>.ja
 
 See [`.cursor/fabric-mod-build-release-guide-v4.3.md`](.cursor/fabric-mod-build-release-guide-v4.3.md) for the multi-version workflow.
 
+## Configuration
+
+In-game: **Mods → Guard Villagers → Configure** ([Mod Menu](https://modrinth.com/mod/modmenu); MidnightLib is bundled). File: `config/guardvillagers.json`.
+
+Full option list with defaults: [docs/config.md](docs/config.md).
+
 ## Natural guard spawning
 
 Natural villagers can spawn guards on chunk load based on config (`spawnChancePerVillager`, `minimumGuardsPerVillage`, `villageGuardClusterRadius`). Each villager is processed at most once via the `guardvillagers.natural_spawn_processed` command tag.
